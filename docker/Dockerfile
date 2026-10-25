@@ -46,16 +46,11 @@ RUN chmod +x /tmp/install_oakd_pro_dependencies.sh && \
 
 # Install ROS2 packages for RTAB-Map and RealSense
 RUN apt-get update && apt-get install -y \
-    ros-${ROS_DISTRO}-rtabmap \
-    ros-${ROS_DISTRO}-rtabmap-ros \
-    ros-${ROS_DISTRO}-rtabmap-msgs \
-    ros-${ROS_DISTRO}-rtabmap-launch \
-    ros-${ROS_DISTRO}-rtabmap-viz \
-    ros-${ROS_DISTRO}-rtabmap-examples \
-    # install rclpy packages
+        # install rclpy packages
     ros-${ROS_DISTRO}-rclpy \
     ros-${ROS_DISTRO}-realsense2-camera \
     ros-${ROS_DISTRO}-realsense2-description \
+    ros-${ROS_DISTRO}-realsense2-t265 \
     ros-${ROS_DISTRO}-pcl-ros \
     ros-${ROS_DISTRO}-pcl-conversions \
     ros-${ROS_DISTRO}-rviz2 \
@@ -128,6 +123,9 @@ RUN apt-get update && apt-get install -y \
     libxmu-dev \
     libglu1-mesa \
     x11-apps \
+    libsuitesparse-dev \
+    liblapack-dev \
+    libblas-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -148,7 +146,7 @@ WORKDIR /root/neuronav_ws
 # Copy the neuronav package
 COPY . /root/neuronav_ws/src/neuronav_rtabmap
 
-RUN pip3 install --upgrade "numpy<2"
+RUN pip3 install --upgrade numpy==1.21.5
 
 # Install neuronav package
 RUN cd /root/neuronav_ws/src/neuronav_rtabmap && \
